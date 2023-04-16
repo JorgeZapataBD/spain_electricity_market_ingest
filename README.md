@@ -47,7 +47,6 @@ Como se ha comentado, se han dockerizado todos los servicios utilizados, antes d
 ## Despliegue del Proyecto
 Una vez introducido todas las herramientas vamos a explicar como desplegar cada una ellas, además de abrir comunicación entre ellas, ya que al estar en "containers" de Docker diferentes. Toda la configuración de los documentos de despliegue se podrán encontrar en el directorio de Deployment, separado por herramientas.
 ### Apache Aiflow
-, tendremos que añadir las otras "networks" a las redes correspondientes.
 
 Vamos a empezar con la instalación de Apache Airflow que será el Orquestador de tareas, que ejecutará operadores de Python que realizarán las operaciones de ETL del Pipeline, para el despliegue de la misma en Docker, se ha seguido la siguiente guía:
 
