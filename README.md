@@ -34,7 +34,7 @@ Con esta información se puede entender la "Curva Agregada Oferta y Demanda", do
 Como se ha mencionado inicialmente, se ha planteado el proyecto como una Ingesta en Batch, para facilitar la instalación de los diferentes servicios se ha hecho mediante contenedores de Docker, evitando conflictos en la instalación, además de esta forma se automatiza la instalación de una forma más sencilla, antes de explicar los productos utilizados, se ha querido compartir un esquema del proyecto a partir del cual podemos hacernos una idea del proceso llevado a cabo.
 
 <div class="ai-center-all">
-    <img width="800" src="https://github.com/JorgeZapataBD/spain_electricity_market_ingest/blob/main/ArquitecturaProyectoEsios.png?raw=true" alt="data stack">
+    <img width="800" src="https://github.com/JorgeZapataBD/spain_electricity_market_ingest/blob/main/images/ArquitecturaProyectoEsios.png?raw=true" alt="data stack">
 </div>
 
 ### Herramientas
@@ -55,7 +55,7 @@ https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index
 El único cambio realizado, es que se ha montado una imagen de apache-airflow personalizada, ya que no funcionaba correctamente la "feature" añadida el el docker-compose obtenido de la documentación. Una vez aplicado este cambio solo hay que seguir la guía compartida, hasta poder ver la interfaz de Apache Airflow como se ve a continuación.
 
 <div class="ai-center-all">
-    <img width="800" src="https://github.com/JorgeZapataBD/spain_electricity_market_ingest/blob/main/ApacheAirflowInit.png?raw=true" alt="data stack">
+    <img width="800" src="https://github.com/JorgeZapataBD/spain_electricity_market_ingest/blob/main/images/ApacheAirflowInit.png?raw=true" alt="data stack">
 </div>
 
 ### Apache Kafka & Zookeeper
@@ -94,7 +94,7 @@ Además como se habrá visto en la documentación de Docker de Apache Airflow, s
 Una vez visto, el proceso es el mostrado en la Arquitectura, un primero proceso que conecta con ESIOS y envía los datos a Apache Kafka, este paso lo hacemos ya que nos permite utilizar estos eventos en "raw" por si los necesitasemos en cualquier otro servicio que no sea MongoDB, y posteriormente se lee de estos, y se envía a una colección del tipo "Time Serie" de MongoDB, previamente creada por el proceso de Airflow si no existía, quedando un esquema como el siguiente:
 
 <div class="ai-center-all">
-    <img width="800" src="https://github.com/JorgeZapataBD/spain_electricity_market_ingest/blob/main/ApacheAirflowDag.png?raw=true" alt="data stack">
+    <img width="800" src="https://github.com/JorgeZapataBD/spain_electricity_market_ingest/blob/main/images/ApacheAirflowDag.png?raw=true" alt="data stack">
 </div>
 
 Como se puede ver, se crea una rama para cada indicador, y esto es totalmente dinámico, lo que nos permite añadir nuevos indicadores y tablas en cualquier momento, creando un dag para cada tabla y una rama para cada indicador dentro del DAG correspondiente.
