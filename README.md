@@ -102,9 +102,14 @@ Como se puede ver, se crea una rama para cada indicador, y esto es totalmente di
 ## Documentacion
 
 https://www.docker.com/
+
 https://kafka.apache.org/
+
 https://airflow.apache.org/
+
 https://www.mongodb.com/
+
 https://www.esios.ree.es/es
+
 https://elperiodicodelaenergia.com/por-que-el-mercado-electrico-es-marginalista/
 
