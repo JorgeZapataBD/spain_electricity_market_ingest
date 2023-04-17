@@ -1,0 +1,63 @@
+{
+	"tables": [{
+			"name": "generacion_tiemporeal_renovable",
+			"ids": [ "1295", "1296", "1294", "551", "546"]
+		},
+        {
+			"name": "generacion_tiemporeal_no_renovable",
+			"ids": ["1297", "553", "550", "549", "548", "547"]
+		},
+		{
+			"name": "demanda",
+			"ids": ["545", "544", "1293"]
+		},
+		{
+			"name": "facturacion_precio",
+			"ids": ["1001", "1002", "1003", "1004", "1005", "600"]
+		},
+		{
+			"name": "generacion_p48_renovable",
+			"ids": ["84","85","10010","10013","10063"
+			]
+		},
+		{
+			"name": "generacion_p48_intercambios",
+			"ids": ["10014","10015","10016","10026"]
+		},
+		{
+			"name": "generacion_p48_no_renovables",
+			"ids": ["74","79","10008","10011","10027"]
+		},
+		{
+			"name": "generacion_prevista",
+			"ids": ["10358", "1779", "1777", "1775"]
+		},
+		{
+			"name": "generacion_medida",
+			"ids": ["10037","10035","1168","1162","1153","1161"]
+		}
+	],
+	"esios_headers": {
+		"x-api-key": "b13af0538afc84e3723dd8f1a03ed0ba65fe0260c283ed0c85ab019b6e22d1b7",
+		"Accept": "application/json; application/vnd.esios-api-v1+json",
+		"Content-Type": "application/json",
+		"Host": "api.esios.ree.es",
+		"Cookie": ""
+	},
+	"kafka_config": {
+		"bootstrap.servers": "kafka:29092",
+		"socket.send.buffer.bytes": 20971520,
+		"message.max.bytes": 20971520,
+                "batch.size": 10000,
+                "linger.ms": 30000,
+		"fetch.message.max.bytes": 20971520,
+                "retries": 1
+
+	},
+	"kafka_config_consumer": {
+		"bootstrap.servers": "kafka:29092",
+		"group.id": "mongo_db_group",
+		"auto.offset.reset": "earliest",
+		"fetch.message.max.bytes": 20971520
+	}
+}
