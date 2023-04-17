@@ -27,14 +27,18 @@ De aquí derivan la mayor parte de críticas que se suelen realizar al mercado m
 Con esta información se puede entender la "Curva Agregada Oferta y Demanda", donde se verán las diferentes ofertas de los generadores y demanda, llegando a un punto de interconexión que definará el Precio diario de la energía.
 
 <div class="ai-center-all">
+  <p align="center">
     <img width="800" src="https://elperiodicodelaenergia.com/wp-content/uploads/2018/11/Curva-agregada-de-demanda-y-oferta-1024x638.jpg?raw=true" alt="data stack">
+  </p>
 </div>
 
 ## Arquitectura del Proyecto
 Como se ha mencionado inicialmente, se ha planteado el proyecto como una Ingesta en Batch, para facilitar la instalación de los diferentes servicios se ha hecho mediante contenedores de Docker, evitando conflictos en la instalación, además de esta forma se automatiza la instalación de una forma más sencilla, antes de explicar los productos utilizados, se ha querido compartir un esquema del proyecto a partir del cual podemos hacernos una idea del proceso llevado a cabo.
 
 <div class="ai-center-all">
+  <p align="center">
     <img width="800" src="https://github.com/JorgeZapataBD/spain_electricity_market_ingest/blob/main/images/ArquitecturaProyectoEsios.png?raw=true" alt="data stack">
+  </p>
 </div>
 
 ### Herramientas
@@ -55,7 +59,9 @@ https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index
 El único cambio realizado, es que se ha montado una imagen de apache-airflow personalizada, ya que no funcionaba correctamente la "feature" añadida el el docker-compose obtenido de la documentación. Una vez aplicado este cambio solo hay que seguir la guía compartida, hasta poder ver la interfaz de Apache Airflow como se ve a continuación.
 
 <div class="ai-center-all">
+  <p align="center">
     <img width="800" src="https://github.com/JorgeZapataBD/spain_electricity_market_ingest/blob/main/images/ApacheAirflowInit.png?raw=true" alt="data stack">
+  </p>
 </div>
 
 ### Apache Kafka & Zookeeper
@@ -94,10 +100,32 @@ Además como se habrá visto en la documentación de Docker de Apache Airflow, s
 Una vez visto, el proceso es el mostrado en la Arquitectura, un primero proceso que conecta con ESIOS y envía los datos a Apache Kafka, este paso lo hacemos ya que nos permite utilizar estos eventos en "raw" por si los necesitasemos en cualquier otro servicio que no sea MongoDB, y posteriormente se lee de estos, y se envía a una colección del tipo "Time Serie" de MongoDB, previamente creada por el proceso de Airflow si no existía, quedando un esquema como el siguiente:
 
 <div class="ai-center-all">
+  <p align="center">
     <img width="800" src="https://github.com/JorgeZapataBD/spain_electricity_market_ingest/blob/main/images/ApacheAirflowDag.png?raw=true" alt="data stack">
+  </p>
 </div>
 
-Como se puede ver, se crea una rama para cada indicador, y esto es totalmente dinámico, lo que nos permite añadir nuevos indicadores y tablas en cualquier momento, creando un dag para cada tabla y una rama para cada indicador dentro del DAG correspondiente.
+Como se puede ver, se crea una rama para cada indicador, y esto es totalmente dinámico, lo que nos permite añadir nuevos indicadores y tablas en cualquier momento, creando un dag para cada tabla y una rama para cada indicador dentro del DAG correspondiente. En la imagen se puede ver los diferentes pasos que se realizan, aún así vamos a explicar brevemente estos.
+1. Crear colección de MongoDB si no existe, las colección serán del tipo TimeSeries, ya que para los datos que manejamos nos permitirá hacer consultas de forma más eficiente, en este caso nos basaremos en el nombre definido en las variables, y cada una de ellas agrupará diferentes indicares que representan un tipo de datos similar.
+2. Se comprueba los últimos datos cargados a MongoDB, obteniendo la última fecha para que la siguiente ejecución a la API de Esios sea desde ese punto, en caso de no existir se traerá el histórico de un año de dicho indicador.
+
+3. Se conecta con Esios y se envían los eventos a Apache Kafka, se hace una pequeña transformación para recoger en todos los eventos los metadatos del indicador, lo que nos permitirá poder utilizarlos en cualquier servicio que disponibilicemos los datos. En este caso utilizamos Kafka como herramienta intermedia, ya que nos permitiría disponibilizar los eventos en otro servicio si fuese necesario, ya que permite leer los eventos del mismo topic con diferentes grupos.
+
+4. Se cargan los eventos en MongoDB tras leerlos en Kafka.
+
+Además de estos pasos hay que tener en cuenta, que el DAG se ha configurado para que las ejecuciones sean manuales, pero se podría modificar para que por ejemplo se ejecutase cada hora si tuviesemos un servidor activo. Por otro lado Airflow nos permite todo tipo de control de las ejecuciones y dependencias de los diferentes operadores, por defecto, se configura para que solo se ejecute un operador si los anteriores han funcionado correctamente, pero en este caso, para la carga de Apache Kafka a MongoDB se ha configurado para que se ejecute una vez se hayan ejecutado todos los procesadores, aunque alguno haya terminado con errores, de esta forma aunque haya algún fallo en un indicador de Esios el resto se cargará correctamente, y como el último instante cargado se recupera por indicador no habrá problema en la siguiente ejecución.
+
+
+## Cuadro de Mando
+
+Una vez ingestados los eventos en MongoDB con una estructura que permite utilizarlos de forma cómoda, podemos conectar la BBDD a Power BI para poder sacar información de los datos, por ejemplo, en el siguiente Cuadro de Mando nos permite comparar el Precio Diario del Mercado Eléctrico en diferentes países de Europa.
+
+<div class="ai-center-all">
+  <p align="center">
+    <img width="800" src="https://github.com/JorgeZapataBD/spain_electricity_market_ingest/blob/main/images/MercadoDiarioEuropa.png?raw=true" alt="data stack">
+  </p>
+</div>
+
 
 ## Documentacion
 
@@ -112,4 +140,6 @@ https://www.mongodb.com/
 https://www.esios.ree.es/es
 
 https://elperiodicodelaenergia.com/por-que-el-mercado-electrico-es-marginalista/
+
+https://powerbi.microsoft.com/es-es/
 
