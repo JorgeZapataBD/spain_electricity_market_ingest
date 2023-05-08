@@ -1,0 +1,271 @@
+{
+  "mongodb_collections": [{
+    "collection": "demanda",
+    "ids": [{
+      "545": "demanda_programada"
+    }, {
+      "544": "demanda_prevista"
+    }, {
+      "1293": "demanda_real"
+    }],
+    "pipeline": [{
+      "$project": {
+        "created": {
+          "$dateToString": {
+            "format": "%Y-%m-%dT%H",
+            "date": "$datetime"
+          }
+        },
+        "value": "$value",
+        "metadata_id": "$metadata.id"
+      }
+    }, {
+      "$group": {
+        "_id": {
+          "datetime": "$created",
+          "metadata_id": "$metadata_id"
+        },
+        "value": {
+          "$sum": "$value"
+        }
+      }
+    }, {
+      "$sort": {
+        "_id": -1
+      }
+    }]
+  }, {
+    "collection": "facturacion_precio",
+    "ids": [{
+      "600": "p_spot_diario"
+    }],
+    "pipeline": [{
+      "$match": {
+        "metadata.id": 600,
+        "metadata.geo_id": 3
+      }
+    }, {
+      "$project": {
+        "created": {
+          "$dateToString": {
+            "format": "%Y-%m-%dT%H",
+            "date": "$datetime"
+          }
+        },
+        "value": "$value",
+        "metadata_id": "$metadata.id"
+      }
+    }, {
+      "$group": {
+        "_id": {
+          "datetime": "$created",
+          "metadata_id": "$metadata_id"
+        },
+        "value": {
+          "$sum": "$value"
+        }
+      }
+    }, {
+      "$sort": {
+        "_id": -1
+      }
+    }]
+  }, {
+    "collection": "generacion_p48_renovable",
+    "ids": [{
+      "84": "p48_gp_solar_fotovoltaica"
+    }, {
+      "85": "p48_gp_solar_termica"
+    }, {
+      "10010": "p48_gp_eolica"
+    }, {
+      "10013": "p48_gp_otras_renovables"
+    }, {
+      "10063": "p48_gp_hidraulica"
+    }],
+    "pipeline": [{
+      "$project": {
+        "created": {
+          "$dateToString": {
+            "format": "%Y-%m-%dT%H",
+            "date": "$datetime"
+          }
+        },
+        "value": "$value",
+        "metadata_id": "$metadata.id"
+      }
+    }, {
+      "$group": {
+        "_id": {
+          "datetime": "$created",
+          "metadata_id": "$metadata_id"
+        },
+        "value": {
+          "$sum": "$value"
+        }
+      }
+    }, {
+      "$sort": {
+        "_id": -1
+      }
+    }]
+  }, {
+    "collection": "generacion_p48_intercambios",
+    "ids": [{
+      "10014": "p48_saldo_portugal"
+    }, {
+      "10015": "p48_saldo_francia"
+    }, {
+      "10016": "p48_saldo_marruecos"
+    }, {
+      "10026": "p48_saldo_andorra"
+    }],
+    "pipeline": [{
+      "$project": {
+        "created": {
+          "$dateToString": {
+            "format": "%Y-%m-%dT%H",
+            "date": "$datetime"
+          }
+        },
+        "value": "$value",
+        "metadata_id": "$metadata.id"
+      }
+    }, {
+      "$group": {
+        "_id": {
+          "datetime": "$created",
+          "metadata_id": "$metadata_id"
+        },
+        "value": {
+          "$sum": "$value"
+        }
+      }
+    }, {
+      "$sort": {
+        "_id": -1
+      }
+    }]
+  }, {
+    "collection": "generacion_p48_no_renovables",
+    "ids": [{
+      "74": "p48_gp_nuclear"
+    }, {
+      "79": "p48_gp_ciclo_combinado"
+    }, {
+      "10008": "p48_gp_carbon"
+    }, {
+      "10011": "p48_gp_cogeneracion"
+    }, {
+      "10027": "p48_gp_total"
+    }],
+    "pipeline": [{
+      "$project": {
+        "created": {
+          "$dateToString": {
+            "format": "%Y-%m-%dT%H",
+            "date": "$datetime"
+          }
+        },
+        "value": "$value",
+        "metadata_id": "$metadata.id"
+      }
+    }, {
+      "$group": {
+        "_id": {
+          "datetime": "$created",
+          "metadata_id": "$metadata_id"
+        },
+        "value": {
+          "$sum": "$value"
+        }
+      }
+    }, {
+      "$sort": {
+        "_id": -1
+      }
+    }]
+  }, {
+    "collection": "generacion_prevista",
+    "ids": [{
+      "10358": "gpv_eolyfot"
+    }, {
+      "1779": "gpv_fotovoltaica"
+    }, {
+      "1777": "gpv_eolica"
+    }, {
+      "1775": "gpv_demanda"
+    }],
+    "pipeline": [{
+      "$project": {
+        "created": {
+          "$dateToString": {
+            "format": "%Y-%m-%dT%H",
+            "date": "$datetime"
+          }
+        },
+        "value": "$value",
+        "metadata_id": "$metadata.id"
+      }
+    }, {
+      "$group": {
+        "_id": {
+          "datetime": "$created",
+          "metadata_id": "$metadata_id"
+        },
+        "value": {
+          "$sum": "$value"
+        }
+      }
+    }, {
+      "$sort": {
+        "_id": -1
+      }
+    }]
+  },{
+    "collection": "potencia_disponible",
+    "ids": [{
+      "472": "pot_dis_hidraulica_ugh"
+    }, {
+      "473": "pot_dis_turb_bombeo"
+    }, {
+      "474": "pot_dis_nuclear"
+    }, {
+      "475": "pot_dis_hulla_a"
+    }, {
+      "476": "pot_dis_hulla_sb"
+    }, {
+      "477": "pot_dis_ciclo_combinado"
+    }, {
+      "478": "pot_dis_fuel"
+    }, {
+      "479": "pot_dis_gas_natural"
+    }],
+    "pipeline": [{
+      "$project": {
+        "created": {
+          "$dateToString": {
+            "format": "%Y-%m-%dT%H",
+            "date": "$datetime"
+          }
+        },
+        "value": "$value",
+        "metadata_id": "$metadata.id"
+      }
+    }, {
+      "$group": {
+        "_id": {
+          "datetime": "$created",
+          "metadata_id": "$metadata_id"
+        },
+        "value": {
+          "$sum": "$value"
+        }
+      }
+    }, {
+      "$sort": {
+        "_id": -1
+      }
+    }]
+  }]
+}
