@@ -126,6 +126,8 @@ Una vez ingestados los eventos en MongoDB con una estructura que permite utiliza
   </p>
 </div>
 
+## Modelo de Predicción
+Otro uso que se puede dar a estos datos, es que además de un cuadro de mando, se pueden utilizar estos datos para realizar modelos predictivos del precio de la energía en el mercado diario, pudiendo ayudar a generadores a la hora de definir el precio de venta o compradores como comercializadores para definir ofertas de compra, y calcular gastos o ganancias gracias a estos valores, definiendo a través de estas predicciones la forma de actuar para el mercado diario. Se ha hecho un análisis muy simple y modelos basados en este pequeño análisis, por lo que sería muy mejorable pero solo para dar una idea de lo que se puede conseguir con esto, en el directorio "AnalysisAndPredictionsModels" se puede encontrar el análisis en un notebook con todos los gráficos correspondientes y los resultados del modelo.
 
 ## Documentacion
 
